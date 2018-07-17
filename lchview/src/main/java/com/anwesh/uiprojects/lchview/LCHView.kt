@@ -33,10 +33,12 @@ fun Canvas.drawHighlightingArc(i : Int, scale : Float, paint : Paint) {
     for (j in 0..3) {
         save()
         rotate(j * 90f)
-        paint.color = Color.parseColor("#9E9E9E")
+        paint.color = Color.parseColor("#999E9E9E")
         drawArc(RectF(-r, -r, r, r), 0f, 90f, false, paint)
-        paint.color = Color.parseColor("#EEEEEE")
-        drawArc(RectF(-r, -r, r, r), 0f, 90f * scale, false, paint)
+        if (scale != 0f) {
+            paint.color = Color.parseColor("#FFFFFF")
+            drawArc(RectF(-r, -r, r, r), 0f, 90f * scale, false, paint)
+        }
         restore()
     }
 }
@@ -159,12 +161,14 @@ class LCHView(ctx : Context) : View(ctx) {
 
     data class LinkedCircHighlighter(var i : Int) {
 
-        private var curr : LCHNode = LCHNode(0)
+        private var root : LCHNode = LCHNode(0)
+
+        private var curr : LCHNode = root
 
         private var dir : Int = 1
 
         fun draw(canvas : Canvas, paint: Paint) {
-            curr.draw(canvas, paint)
+            root.draw(canvas, paint)
         }
 
         fun update(stopcb : (Int, Float) -> Unit) {
