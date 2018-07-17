@@ -177,4 +177,27 @@ class LCHView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : LCHView) {
+
+        private val lch : LinkedCircHighlighter = LinkedCircHighlighter(0)
+
+        private val animator : Animator = Animator(view)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(Color.parseColor("#212121"))
+            lch.draw(canvas, paint)
+            animator.animate {
+                lch.update {j, scale ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            lch.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
