@@ -4,6 +4,7 @@ package com.anwesh.uiprojects.lchview
  * Created by anweshmishra on 17/07/18.
  */
 
+import android.app.Activity
 import android.graphics.Paint
 import android.graphics.Canvas
 import android.graphics.RectF
@@ -200,6 +201,14 @@ class LCHView(ctx : Context) : View(ctx) {
             lch.startUpdating {
                 animator.start()
             }
+        }
+    }
+
+    companion object {
+        fun create(activity : Activity) : LCHView {
+            val view : LCHView = LCHView(activity)
+            activity.setContentView(view)
+            return view
         }
     }
 }
