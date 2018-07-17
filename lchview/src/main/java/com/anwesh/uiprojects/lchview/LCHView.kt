@@ -153,4 +153,28 @@ class LCHView(ctx : Context) : View(ctx) {
             return this
         }
     }
+
+    data class LinkedCircHighlighter(var i : Int) {
+
+        private var curr : LCHNode = LCHNode(0)
+
+        private var dir : Int = 1
+
+        fun draw(canvas : Canvas, paint: Paint) {
+            curr.draw(canvas, paint)
+        }
+
+        fun update(stopcb : (Int, Float) -> Unit) {
+            curr.update {j,scale ->
+                curr = curr.getNext(dir) {
+                    dir *= -1
+                }
+                stopcb(j, scale)
+            }
+        }
+
+        fun startUpdating(cb : () -> Unit) {
+            curr.startUpdating(cb)
+        }
+    }
 }
